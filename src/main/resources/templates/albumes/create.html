@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Crear nuevo Proyecto">
+    <meta name="author" content="Proyecto">
+
+    <title>Crear Nuevo Proyecto</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom styles -->
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --dark-color: #3a0ca3;
+            --light-color: #f8f9fa;
+            --text-dark: #2b2d42;
+            --text-light: #8d99ae;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-dark);
+        }
+
+        /* Modern Header */
+        .album-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 3rem;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 10px 30px rgba(67, 97, 238, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .album-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
+            opacity: 0.2;
+        }
+
+        .album-title {
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .album-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background-color: transparent;
+            padding: 0.75rem 0;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb-item a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .breadcrumb-item a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+
+        /* Album Form */
+        .album-form-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.2rem rgba(72, 149, 239, 0.25);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+        }
+
+        /* Submit Button */
+        .btn-create {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-create:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+            color: white;
+        }
+
+        .btn-create i {
+            margin-right: 10px;
+        }
+
+        /* Back to Menu Button */
+        .btn-back {
+            background: white;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .btn-back:hover {
+            background: var(--light-color);
+            color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .btn-back i {
+            margin-right: 8px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 2rem;
+        }
+
+        /* Success notification - Estilo similar al login */
+        .success-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            width: 350px;
+            border-left: 4px solid #28a745;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.3s ease-out;
+            display: none;
+            padding: 1rem;
+        }
+
+        .success-notification-content {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .success-icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: #28a745;
+        }
+
+        .success-message {
+            flex: 1;
+        }
+
+        .success-title {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+            color: #28a745;
+        }
+
+        .success-detail {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .success-close {
+            margin-left: 1rem;
+            color: #6c757d;
+            cursor: pointer;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-20px); }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .album-header {
+                padding: 3rem 0;
+            }
+
+            .album-title {
+                font-size: 2rem;
+            }
+
+            .album-subtitle {
+                font-size: 1rem;
+            }
+
+            .album-form-container {
+                padding: 1.5rem;
+            }
+
+            .success-notification {
+                width: 90%;
+                right: 5%;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .btn-back, .btn-create {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Success Notification -->
+<div id="successNotification" class="alert alert-success success-notification" role="alert">
+    <div class="success-notification-content">
+        <i class="fas fa-check-circle success-icon"></i>
+        <div class="success-message">
+            <div class="success-title">Project created.</div>
+            <div class="success-detail">The album has been created successfully.</div>
+        </div>
+        <span class="success-close" onclick="hideSuccessNotification()">&times;</span>
+    </div>
+</div>
+
+<!-- Navigation -->
+<div th:include="usuario/template_usuario.html::header"></div>
+
+<!-- Album Header -->
+<div class="album-header text-center">
+    <div class="container">
+        <h1 class="album-title">Create your new project</h1>
+        <p class="album-subtitle">Organize your projects</p>
+    </div>
+</div>
+
+<!-- Breadcrumb -->
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/mainMenu}">Home</a></li>
+            <li class="breadcrumb-item active">Create Project</li>
+        </ol>
+    </nav>
+</div>
+
+<!-- Album Form -->
+<div class="container">
+    <div class="album-form-container">
+        <form th:action="@{/albumes/save}" method="post" enctype="multipart/form-data" id="albumForm">
+            <!-- Album Name -->
+            <div class="mb-4">
+                <label for="nombre" class="form-label">Proyect Name</label>
+                <input type="text" class="form-control" id="nombre" name="nombre"
+                       placeholder="Name of your next project." required>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-4">
+                <label for="descripcion" class="form-label">Description.</label>
+                <textarea class="form-control" id="descripcion" name="descripcion" rows="4"
+                          placeholder="Describe the content of this new project (optional)."></textarea>
+            </div>
+
+            <!-- Submit Button and Back Button -->
+            <div class="button-group">
+                <button type="button" class="btn btn-back" onclick="window.history.back()">
+                    <i class="fas fa-arrow-left"></i> Back to Menu
+                </button>
+                <button type="submit" class="btn-create">
+                    <i class="fas fa-plus-circle"></i> Create Project
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:include="adm/template_admin.html::footer"></div>
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Scripts -->
+<script>
+    // Función para mostrar notificación de éxito
+    function showSuccessNotification() {
+        const notification = document.getElementById('successNotification');
+        notification.style.display = 'flex';
+        notification.style.animation = 'fadeIn 0.3s';
+
+        // Ocultar después de 5 segundos
+        setTimeout(() => {
+            hideSuccessNotification();
+        }, 5000);
+    }
+
+    // Función para ocultar notificación
+    function hideSuccessNotification() {
+        const notification = document.getElementById('successNotification');
+        notification.style.animation = 'fadeOut 0.3s';
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 300);
+    }
+
+    // Manejar el envío del formulario
+    document.getElementById('albumForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Guardar referencia al formulario
+        const form = this;
+
+        // Crear FormData para enviar el formulario
+        const formData = new FormData(form);
+
+        // Enviar el formulario con fetch
+        fetch(form.action, {
+            method: form.method,
+            body: new FormData(form)
+        })
+            .then(response => response.text())  // Obtener la respuesta en texto
+            .then(text => {
+                if (text === "Álbum guardado con éxito") {
+                    // Mostrar notificación de éxito
+                    showSuccessNotification();
+                    // Limpiar el formulario después de enviar
+                    form.reset();
+                } else {
+                    console.error('Error al guardar el proyecto:', text);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+
+    document.getElementById('portada').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const preview = document.getElementById('coverPreview');
+                preview.src = event.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Reset form when navigating away (to prevent resubmission)
+    window.addEventListener('beforeunload', function() {
+        document.getElementById('albumForm').reset();
+    });
+</script>
+
+</body>
+</html>
