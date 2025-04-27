@@ -592,6 +592,20 @@
             <button type="button" class="btn-add-fragment" onclick="showAddFragmentModal()">
                 <i class="fas fa-plus"></i> add project section
             </button>
+
+            <!-- Only supervisors see both buttons – admins see only logs -->
+            <button id="fillReportBtn"
+                    class="btn btn-primary"
+                    th:if="${session.tipo_usuario == 'SUPERVISOR'}">
+                <i class="fas fa-pen"></i> Fill project report
+            </button>
+
+            <button id="logsBtn"
+                    class="btn btn-outline-info"
+                    th:if="${session.tipo_usuario == 'SUPERVISOR' or isAdmin}">
+                <i class="fas fa-book"></i> Report logs
+            </button>
+
         </div>
     </div>
 </div>
@@ -763,6 +777,9 @@
     </div>
 </div>
 
+<div th:replace="albumes/report_modal.html"></div>
+<div id="logsModalContainer"></div> <!-- injected dynamically -->
+
 <!-- Empty State -->
 <div th:if="${subAlbumAntes == null and subAlbumDespues == null and #lists.isEmpty(fragmentos)}" class="empty-state">
     <i class="fas fa-folder-open"></i>
@@ -780,6 +797,8 @@
 <!-- Bootstrap core JavaScript -->
 <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
 <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/report.js}"></script>
+
 
 <script>
     // Variables globales
@@ -891,6 +910,8 @@
         form.submit();
     }
 </script>
+
+
 
 </body>
 </html>

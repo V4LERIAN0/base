@@ -1,0 +1,22 @@
+<!-- fragment used with ::body in the controller -->
+<div>
+  <h5>Project reports</h5>
+  <div th:each="r : ${reportes}" class="card mb-2">
+    <div class="card-body">
+      <small class="text-muted"
+             th:text="${#dates.format(r.fechaHora,'dd/MM/yyyy HH:mm')}"></small>
+      <span th:text="${r.autor.nombre}"></span>
+      <textarea th:id="'txt_'+${r.id}"
+                class="form-control-plaintext"
+                th:readonly="${!editable}"
+                th:text="${r.contenido}"></textarea>
+
+      <button class="btn btn-sm btn-outline-primary mt-1"
+              th:if="${editable}"
+              th:data-id="${r.id}"
+              onclick="saveEditedReport(this)">
+        Save
+      </button>
+    </div>
+  </div>
+</div>
