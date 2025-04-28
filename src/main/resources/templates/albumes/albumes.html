@@ -18,7 +18,42 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Custom styles -->
+
     <style>
+        /* Rounded “pill” buttons with consistent padding and shadow */
+        .btn-rounded {
+            border-radius: 50px !important;
+            padding: 0.6rem 1.2rem !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Primary variant */
+        .btn-rounded.btn-primary {
+            background: var(--primary-color);
+            border: none;
+            color: white;
+        }
+        .btn-rounded.btn-primary:hover {
+            background: var(--secondary-color);
+        }
+
+        /* Outline‐info variant */
+        .btn-rounded.btn-outline-info {
+            background: white;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+        .btn-rounded.btn-outline-info:hover {
+            background: var(--light-color);
+            border-color: var(--primary-color);
+            color: var(--secondary-color);
+        }
+
         :root {
             --primary-color: #4361ee;
             --secondary-color: #3f37c9;
@@ -594,17 +629,21 @@
             </button>
 
             <!-- Only supervisors see both buttons – admins see only logs -->
-            <button id="fillReportBtn"
-                    class="btn btn-primary"
-                    th:if="${session.tipo_usuario == 'SUPERVISOR'}">
-                <i class="fas fa-pen"></i> Fill project report
-            </button>
+            <th:block th:with="rol=${session.tipo_usuario}">
 
-            <button id="logsBtn"
-                    class="btn btn-outline-info"
-                    th:if="${session.tipo_usuario == 'SUPERVISOR' or isAdmin}">
-                <i class="fas fa-book"></i> Report logs
-            </button>
+                <button id="fillReportBtn"
+                        class="btn btn-primary btn-rounded"
+                        th:if="${rol != null and #strings.equalsIgnoreCase(rol,'SUPERVISOR')}">
+                    <i class="fas fa-pen"></i> Type daily report
+                </button>
+
+                <button id="logsBtn"
+                        class="btn btn-outline-info btn-rounded"
+                        th:if="${rol != null and #strings.equalsIgnoreCase(rol,'SUPERVISOR') or isAdmin}">
+                    <i class="fas fa-book"></i> Report logs
+                </button>
+
+            </th:block>
 
         </div>
     </div>
@@ -910,8 +949,5 @@
         form.submit();
     }
 </script>
-
-
-
 </body>
 </html>

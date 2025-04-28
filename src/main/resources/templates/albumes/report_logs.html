@@ -1,22 +1,50 @@
-<!-- fragment used with ::body in the controller -->
-<div>
-  <h5>Project reports</h5>
-  <div th:each="r : ${reportes}" class="card mb-2">
-    <div class="card-body">
-      <small class="text-muted"
-             th:text="${#dates.format(r.fechaHora,'dd/MM/yyyy HH:mm')}"></small>
-      <span th:text="${r.autor.nombre}"></span>
-      <textarea th:id="'txt_'+${r.id}"
-                class="form-control-plaintext"
-                th:readonly="${!editable}"
-                th:text="${r.contenido}"></textarea>
+<!-- ::body -->
+<div th:fragment="body" class="modal fade" id="logsModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="fas fa-book me-1"></i> Project reports
+        </h5>
+        <th:block th:if="${editable}">
+          <a th:href="@{/albumes/{id}/reports/pdf(id=${albumId})}"
+             class="btn btn-sm btn-outline-secondary ms-auto">
+            <i class="fas fa-file-download"></i> Download all
+          </a>
+        </th:block>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
 
-      <button class="btn btn-sm btn-outline-primary mt-1"
-              th:if="${editable}"
-              th:data-id="${r.id}"
-              onclick="saveEditedReport(this)">
-        Save
-      </button>
+      <div class="modal-body">
+        <div th:if="${#lists.isEmpty(reportes)}" class="text-muted">
+          No reports yet
+        </div>
+
+        <div th:each="r : ${reportes}" class="card mb-3">
+          <div class="card-body">
+            <small class="text-muted"
+                   th:text="${#temporals.format(r.fechaHora,'dd/MM/yyyy HH:mm')}"></small>
+            <span th:text="${r.autor.nombre}"></span>
+
+            <textarea th:id="'txt_'+${r.id}"
+                      class="form-control-plaintext mt-1"
+                      th:readonly="${!editable}"
+                      th:text="${r.contenido}"></textarea>
+
+            <button class="btn btn-sm btn-outline-primary mt-1"
+                    th:if="${editable}"
+                    th:data-id="${r.id}"
+                    onclick="saveEditedReport(this)">
+              Save
+            </button>
+            <a class="btn btn-sm btn-outline-success ms-2"
+               th:href="@{/albumes/{aid}/reports/{rid}/pdf(aid=${albumId}, rid=${r.id})}"
+               title="Download this report">
+              <i class="fas fa-download"></i>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
